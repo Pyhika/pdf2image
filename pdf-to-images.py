@@ -3,8 +3,7 @@ import re
 from pathlib import Path
 from pdf2image import convert_from_path
 
-# poppler/binを環境変数Pathに追
-# 加
+# poppler/binを環境変数Pathに追加
 poppler_dir = Path(__file__).parent.absolute() / "poppler/bin"
 os.environ["PATH"] += os.pathsep + str(poppler_dir)
 
@@ -23,13 +22,13 @@ for num, name in enumerate(files):
         pdf_files.append(name)
 
 # # PDF -> Image　に変換(150dpi)
-        pdf_path = Path("./pdf_files/" + pdf_files[num])
+        pdf_path = Path("./pdf_files/" + pdf_files[num - 1])
         pages = convert_from_path(pdf_path, 150)
 
 # 画像ファイルを１ページずつ保存
         image_dir = Path("./image_files")
         for i, page in enumerate(pages):
-            file_name = pdf_path.stem + "_{:02d}".format(i + 1) + ".jpeg"
+            file_name = pdf_path.stem + "_{:03d}".format(i + 1) + ".jpeg"
             image_path = image_dir / file_name
             # JPEGで保存
             page.save(str(image_path), "JPEG")
